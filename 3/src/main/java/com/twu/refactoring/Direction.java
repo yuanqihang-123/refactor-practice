@@ -1,5 +1,8 @@
 package com.twu.refactoring;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class Direction {
     private final char direction;
 
@@ -7,34 +10,31 @@ public class Direction {
         this.direction = direction;
     }
 
+    private final static Map right = new HashMap<Character, Character>();
+    private final static Map left = new HashMap<Character, Character>();
+    static {
+        right.put('N','E');
+        right.put('S','W');
+        right.put('E','N');
+        right.put('W','S');
+        left.put('N','W');
+        left.put('S','E');
+        left.put('E','N');
+        left.put('W','S');
+    }
+
     public Direction turnRight() {
-        switch (direction) {
-            case 'N':
-                return new Direction('E');
-            case 'S':
-                return new Direction('W');
-            case 'E':
-                return new Direction('N');
-            case 'W':
-                return new Direction('S');
-            default:
-                throw new IllegalArgumentException();
+        if (!right.containsKey(this.direction)){
+            throw new IllegalArgumentException();
         }
+        return new Direction((Character) right.get(this.direction));
     }
 
     public Direction turnLeft() {
-        switch (direction) {
-            case 'N':
-                return new Direction('W');
-            case 'S':
-                return new Direction('E');
-            case 'E':
-                return new Direction('N');
-            case 'W':
-                return new Direction('S');
-            default:
-                throw new IllegalArgumentException();
+        if (!left.containsKey(this.direction)){
+            throw new IllegalArgumentException();
         }
+        return new Direction((Character) left.get(this.direction));
     }
 
     @Override
